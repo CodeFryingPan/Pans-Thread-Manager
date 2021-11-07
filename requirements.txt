@@ -1,0 +1,15 @@
+aiohttp==3.7.4.post0
+anyio==3.3.4
+async-timeout==3.0.1
+attrs==21.2.0
+chardet==4.0.0
+discord==1.7.3
+discord.py==1.7.3
+fastapi==0.70.0
+idna==3.3
+multidict==5.2.0
+pydantic==1.8.2
+sniffio==1.2.0
+starlette==0.16.0
+typing-extensions==3.10.0.2
+yarl==1.7.2
