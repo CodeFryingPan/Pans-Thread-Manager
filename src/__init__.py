@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 import discord
-from config import config
+from src.config.config import config
 import os
 
 def create_app(config_name):
@@ -25,7 +25,7 @@ def create_app(config_name):
     )
 
     #TODO: Get the router from the main file and other files later on
-    from routes import main
+    from src.routes import main
 
     app.include_router(main.router)
 
