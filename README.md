@@ -115,4 +115,4 @@ Base tests (that are not meant to be run) should be named `base_*_test.py`.
 
 ## License
 
-[License](LICENSE.md)
+[License](LICENSE)
