@@ -24,6 +24,7 @@ class TestingConfig(Config):
 
 
 class ProductionConfig(Config):
+    debug = False
     pass
 
 
