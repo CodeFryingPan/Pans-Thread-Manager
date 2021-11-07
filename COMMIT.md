@@ -65,6 +65,8 @@ git commit <directory/files> ; git push
 
 ```
 
+It'll ask you to set upstream and then follow the steps to do set the remote.
+
 Don't forget to pull everything from the main branch first and then merge
 
 ```bash
