@@ -72,7 +72,7 @@ Don't forget to pull everything from the main branch first and then merge
 ```bash
 
 git pull 
-git merge master
+git merge main
 
 ```
 
