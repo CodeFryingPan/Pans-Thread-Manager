@@ -108,3 +108,11 @@ python3 -m unittest tests/<directory>/test_*.py
 All tests must be named `test_*.py` to be detected by unittest. 
 
 Base tests (that are not meant to be run) should be named `base_*_test.py`.
+
+## How to help the creation of the bot?
+
+[Guide on how to commit for Pan's News Feed Bot](COMMIT.md)
+
+## License
+
+[License](LICENSE.md)
