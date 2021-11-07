@@ -1,6 +1,5 @@
 from fastapi import FastAPI
 import discord
-from src.config.config import config
 import os
 
 def create_app(config_name):
@@ -15,6 +14,7 @@ def create_app(config_name):
     # TODO: Setup the discord bot
     bot = discord.Client()
 
+    from src.config.config import config
     #TODO: Setup proper configurations for FASTAPI
     app_config = config[config_name]
     app = FastAPI(
