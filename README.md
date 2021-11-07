@@ -1,8 +1,8 @@
-# News-Feed-Bot
+# Pans-News-Feed-Bot
 
 ## Setup 
 
-This is a step by step guide to setup the News Feed Bot for Pan's Kitchen
+This is a step by step guide to setup the Pan's News Feed Bot for Pan's Kitchen
 
 ### Requirements
 
