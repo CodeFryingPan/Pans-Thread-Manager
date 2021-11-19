@@ -3,6 +3,7 @@ from starlette.responses import HTMLResponse
 import asyncio
 import discord
 
+
 # APIRouter is equivalent to Flask's blueprint
 # It allows us to extend FastAPI Routes
 router = APIRouter()
@@ -23,9 +24,10 @@ def main():
 ##        ######### ##  ####            ##    ##  #### ##       ##  ##  ##       ##    ##       ##       ##       ##     ##    
 ##        ##     ## ##   ###      ##    ##    ##   ### ##       ##  ##  ## ##    ##    ##       ##       ##       ##     ##    
 ##        ##     ## ##    ##       ######     ##    ## ########  ###  ###   ######     ##       ######## ######## ########  
-    </pre>                                                                               
+    </pre>             
+                                                                      
     """
-
+        
     return HTMLResponse(title)
 
 
@@ -39,3 +41,5 @@ def health():
     health = "healthy"
 
     return HTMLResponse(health)
+
+
