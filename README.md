@@ -42,8 +42,9 @@ When finished check your dependencies with:
 pip list
 ```
 
-### Running FastAPI
+### Running FastAPI with Discord.py 
 
+This will be used specifically to be able to use the Discord Bot via HTTPS Requests in the future (either on an external app or form).
 
 To run FastAPI locally either run the server using uvicorn (ASGI Server) on your terminal with:
 ```
@@ -69,6 +70,14 @@ Once ran, check `http://127.0.0.1:8000`.
 
 
 Congrats you got FastAPI is running locally and you're all set to develop in the backend now!
+
+### Running The bot
+
+Simply use python3 run.py an this should work:
+
+```text
+python3 run.py
+```
 
 ### Running Tests
 
