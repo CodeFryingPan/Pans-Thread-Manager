@@ -7,7 +7,7 @@ This is a step by step guide to setup the Pan's News Feed Bot for Pan's Kitchen
 ### Requirements
 
 
-Python 3.6.1+, Pip 
+Python 3.9,8+, Pip 
 
 ### Virtual Environment
 
@@ -42,8 +42,9 @@ When finished check your dependencies with:
 pip list
 ```
 
-### Running FastAPI
+### Running FastAPI with Discord.py 
 
+This will be used specifically to be able to use the Discord Bot via HTTPS Requests in the future (either on an external app or form).
 
 To run FastAPI locally either run the server using uvicorn (ASGI Server) on your terminal with:
 ```
@@ -69,6 +70,14 @@ Once ran, check `http://127.0.0.1:8000`.
 
 
 Congrats you got FastAPI is running locally and you're all set to develop in the backend now!
+
+### Running The bot
+
+Simply use python3 run.py an this should work:
+
+```text
+python3 run.py
+```
 
 ### Running Tests
 
@@ -108,3 +117,11 @@ python3 -m unittest tests/<directory>/test_*.py
 All tests must be named `test_*.py` to be detected by unittest. 
 
 Base tests (that are not meant to be run) should be named `base_*_test.py`.
+
+## How to help the creation of the bot?
+
+[Guide on how to commit for Pan's News Feed Bot](COMMIT.md)
+
+## License
+
+[License](LICENSE)

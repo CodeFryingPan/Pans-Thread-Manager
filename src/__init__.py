@@ -1,8 +1,8 @@
 from fastapi import FastAPI
-import discord
+from src.clients.discord_client import DiscordClient
 import os
 
-def create_app(config_name):
+def create_app(config_name, token):
     """
     This will create an instance of FastAPI with the specified routers
     :param config_name: Setup the config name
@@ -11,8 +11,7 @@ def create_app(config_name):
 
     # TODO: Setup these clients in the clients folder instead of here.
 
-    # TODO: Setup the discord bot
-    bot = discord.Client()
+    bot = DiscordClient()
 
     from src.config.config import config
     #TODO: Setup proper configurations for FASTAPI
@@ -29,4 +28,4 @@ def create_app(config_name):
 
     app.include_router(main.router)
 
-    return app
+    return app, bot
