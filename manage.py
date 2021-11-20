@@ -1,3 +1,4 @@
+import asyncio
 import os
 import uvicorn
 from src import create_app
@@ -8,13 +9,12 @@ if os.path.exists(".env"):
     print("Importing environment from .env file")
     for line in open(".env"):
         var = line.strip().split("=")
-        if len(var) == 2:
-            os.environ[var[0]] = var[1]
+        os.environ[var[0]] = var[1]
 
 # Get the mode
 mode = os.getenv("FAST_API_CONFIG") or "development"
-app = create_app(mode)
-
+token = os.getenv("DISCORD_TOKEN")
+app, bot = create_app(mode, token)
 
 # Runs the tests
 def test():
@@ -32,10 +32,20 @@ def test():
     unit_tests = unittest.TestLoader().discover("./tests/unit")
     unittest.TextTestRunner(verbosity=2).run(unit_tests)
 
+@app.on_event("startup")
+async def startup_event():
+    asyncio.create_task(bot.start(token))
+    await asyncio.sleep(4)
+    print(f"{bot.user} has connected to Discord!")
+
+@app.get("/user")
+async def user():
+    return {"User": "{}".format(bot.user)}
 
 # Setup to run the app in debug mode
 if __name__ == "__main__":
     if mode == "development":
+        # bot.run(token)
         uvicorn.run(app, host="127.0.0.1", port=8000)
     elif mode == "testing":
         test()
