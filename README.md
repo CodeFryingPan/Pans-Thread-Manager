@@ -7,7 +7,7 @@ This is a step by step guide to setup the Pan's News Feed Bot for Pan's Kitchen
 ### Requirements
 
 
-Python 3.9,8+, Pip 
+Python 3.9,7+, Pip 
 
 ### Virtual Environment
 
