@@ -23,8 +23,9 @@ discord.TextChannel.create_thread = create_thread
 class DiscordClient(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-
-        self.thread_channels = [907810748430950410, 912067617777406052]
+        test_channel = 907810748430950410
+        production_channel =  912067617777406052
+        self.thread_channels = [production_channel]
         
         upvote_id = 911326534923583498
         downvote_id = 911326527357083730
@@ -70,6 +71,8 @@ class DiscordClient(discord.Client):
 
         # Thread creation
         if message.channel.id in self.thread_channels:
+            print(message)
+            print(message.type)
             if message.type == discord.MessageType.default:
                 channel = message.channel
                 content = message.content
@@ -90,6 +93,12 @@ class DiscordClient(discord.Client):
                             self.format), 
                         delete_after=30)
 
+            if message.type == discord.MessageType.reply:
+                channel = message.channel
+                await message.delete()
+                await channel.send("**{} we do not allow replies in this channel!**".format(
+                        message.author.mention), 
+                        delete_after=10)
             if message.type == discord.MessageType.thread_created:
                 # TEST
                 for emoji_id in self.emojis_to_add:
