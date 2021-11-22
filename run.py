@@ -1,5 +1,6 @@
 from src.clients.discord_client import DiscordClient
 import os
+import sys
 
 # Import settings from .env file
 if os.path.exists(".env"):
@@ -7,6 +8,9 @@ if os.path.exists(".env"):
     for line in open(".env"):
         var = line.strip().split("=")
         os.environ[var[0]] = var[1]
+else:
+    print("ERROR: .env file does not exist failing the script.")
+    sys.exit("FAILED TO RUN SCRIPT MISSING .env")
 
 # Get the mode
 token = os.getenv("DISCORD_TOKEN")
