@@ -83,7 +83,7 @@ class DiscordClient(discord.Client):
                     await channel.create_thread(status, minutes=60, message=message)
                 else:
                     await message.delete()
-                    await channel.send("**{} the message you sent does not pass post validation for a thread with the following reason:** \n{} \n\n**Message:** \n{} \n\n\n**Please make it into a thread with the format:** \n{}".format(
+                    await channel.send("**{} the message you sent does not pass post validation for a thread with the following reason:** \n__**{}**__ \n\n**Message:** \n{} \n\n\n**Please make it into a thread with the format:** \n{}".format(
                             message.author.mention, 
                             status,
                             content, 
