@@ -24,8 +24,13 @@ class DiscordClient(discord.Client):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.thread_channels = [907810748430950410]
-        self.emojis_to_add = [911326534923583498, 911326527357083730]
+        self.thread_channels = [907810748430950410, 912067617777406052]
+        
+        upvote_id = 911326534923583498
+        downvote_id = 911326527357083730
+
+        self.emojis_to_add = [upvote_id]
+        self.exception_users = [204255221017214977]
         self.format = """ 
             --------
             **TITLE** (Atleast 10 characters long)
