@@ -71,8 +71,6 @@ class DiscordClient(discord.Client):
 
         # Thread creation
         if message.channel.id in self.thread_channels:
-            print(message)
-            print(message.type)
             if message.type == discord.MessageType.default:
                 channel = message.channel
                 content = message.content
