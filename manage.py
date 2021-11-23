@@ -22,7 +22,12 @@ thread_channels = [test_channel]
 upvode_id = int(os.getenv("UPVOTE_ID"))
 thread_emojis = [upvode_id]
 
-app, bot = create_app(mode, thread_channels, thread_emojis, token)
+
+insight_role = int(os.getenv("REACTION_ROLE_ID"))
+thread_role = insight_role
+
+
+app, bot = create_app(mode, thread_channels, thread_emojis, thread_role, token)
 
 # Runs the tests
 def test():

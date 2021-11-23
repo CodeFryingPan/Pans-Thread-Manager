@@ -3,15 +3,17 @@ import discord
 import os
 
 class DiscordClient(discord.Client):
-    def __init__(self, thread_channels, thread_emojis, *args, **kwargs):
+    def __init__(self, thread_channels, thread_emojis, thread_role, *args, **kwargs):
         super().__init__(*args, **kwargs)
         
         self.thread_to_remove = dict()
         self.thread_channels = thread_channels.copy()
         self.thread_emojis = thread_emojis.copy()
+        self.thread_role = thread_role
 
         self.format = """--------
 **TITLE** (Atleast 10 characters long + CTRL+B or COMMAND+B)            
+
 CONTENT (Alteast 30 characters long)
 --------
 ```How to bold title in markdown: **title**```"""
@@ -49,6 +51,7 @@ CONTENT (Alteast 30 characters long)
             if message.type == discord.MessageType.default:
                 channel = message.channel
                 content = message.content
+                author = message.author
                 valid, status = self._validate_format(content)
                 if valid:
                     for emoji_id in self.thread_emojis:
@@ -57,6 +60,8 @@ CONTENT (Alteast 30 characters long)
                             continue
                         await message.add_reaction(emoji)
                     await message.create_thread(name=status)
+                    role = discord.utils.get(message.guild.roles, id=self.thread_role)
+                    await author.add_roles(role)
                 else:
                     await message.delete()
                     await channel.send("**{} the message you sent does not pass post validation for a thread with the following reason:** \n__**{}**__ \n\n**Message:** \n{} \n\n\n**Please make it into a thread with the format:** \n{}".format(
@@ -105,6 +110,10 @@ if __name__ == "__main__":
     upvode_id = int(os.getenv("UPVOTE_ID"))
     thread_emojis = [upvode_id]
 
+
+    insight_role = int(os.getenv("REACTION_ROLE_ID"))
+    thread_role = insight_role
+
     token = os.getenv("DISCORD_TOKEN")
-    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis)
+    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis, thread_role = thread_role)
     bot.run(token)

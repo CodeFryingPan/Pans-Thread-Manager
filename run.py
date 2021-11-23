@@ -21,9 +21,13 @@ thread_channels = [test_channel]
 upvode_id = int(os.getenv("UPVOTE_ID"))
 thread_emojis = [upvode_id]
 
+insight_role = int(os.getenv("REACTION_ROLE_ID"))
+thread_role = insight_role
+
 token = os.getenv("DISCORD_TOKEN")
+
 
 # Setup to run the app in debug mode
 if __name__ == "__main__":
-    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis)
+    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis, thread_role = thread_role)
     bot.run(token)

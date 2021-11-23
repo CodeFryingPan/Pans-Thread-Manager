@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from src.clients.discord_client import DiscordClient
 import os
 
-def create_app(config_name, thread_channels, thread_emojis, token):
+def create_app(config_name, thread_channels, thread_emojis, thread_role, token):
     """
     This will create an instance of FastAPI with the specified routers
     :param config_name: Setup the config name
@@ -11,7 +11,7 @@ def create_app(config_name, thread_channels, thread_emojis, token):
 
     # TODO: Setup these clients in the clients folder instead of here.
     # NEED TO SPECIFY Thread channels and thread_emojis
-    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis)
+    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis, thread_role=thread_role)
 
     from src.config.config import config
     #TODO: Setup proper configurations for FASTAPI
