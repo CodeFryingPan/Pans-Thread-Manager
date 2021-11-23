@@ -2,44 +2,19 @@ import requests
 import discord
 import os
 
-
-async def create_thread(self,name,minutes,message):
-    token = 'Bot ' + self._state.http.token
-    url = f"https://discord.com/api/v9/channels/{self.id}/messages/{message.id}/threads"
-    headers = {
-        "authorization" : token,
-        "content-type" : "application/json"
-    }
-    data = {
-        "name" : name,
-        "type" : 11,
-        "auto_archive_duration" : minutes
-    }
- 
-    return requests.post(url,headers=headers,json=data).json()
-
-discord.TextChannel.create_thread = create_thread
-
 class DiscordClient(discord.Client):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, thread_channels, thread_emojis, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        test_channel = 907810748430950410
-        production_channel =  912067617777406052
-        self.thread_channels = [production_channel]
         
-        upvote_id = 911326534923583498
-        downvote_id = 911326527357083730
+        self.thread_to_remove = dict()
+        self.thread_channels = thread_channels.copy()
+        self.thread_emojis = thread_emojis.copy()
 
-        self.emojis_to_add = [upvote_id]
-        self.exception_users = [204255221017214977]
-        self.format = """ 
-            --------
-            **TITLE** (Atleast 10 characters long)
-                        
-            CONTENT (Alteast 30 characters long)
-            --------
-            ```Required: \n\nTo bold: **title*\n\nOptional: \n\nTo add block quote to single message: > message\nTo add block quote to all message: >>> message ```
-        """
+        self.format = """--------
+**TITLE** (Atleast 10 characters long + CTRL+B or COMMAND+B)            
+CONTENT (Alteast 30 characters long)
+--------
+```How to bold title in markdown: **title**```"""
 
     def _validate_format(self, content):
         lines = content.split("\n")
@@ -76,12 +51,12 @@ class DiscordClient(discord.Client):
                 content = message.content
                 valid, status = self._validate_format(content)
                 if valid:
-                    for emoji_id in self.emojis_to_add:
+                    for emoji_id in self.thread_emojis:
                         emoji = discord.utils.get(self.emojis, id=emoji_id)
                         if emoji == None: # Does not exist in the guild
                             continue
                         await message.add_reaction(emoji)
-                    await channel.create_thread(status, minutes=2880, message=message)
+                    await message.create_thread(name=status)
                 else:
                     await message.delete()
                     await channel.send("**{} the message you sent does not pass post validation for a thread with the following reason:** \n__**{}**__ \n\n**Message:** \n{} \n\n\n**Please make it into a thread with the format:** \n{}".format(
@@ -98,15 +73,23 @@ class DiscordClient(discord.Client):
                         message.author.mention), 
                         delete_after=10)
             if message.type == discord.MessageType.thread_created:
-                # TEST
-                for emoji_id in self.emojis_to_add:
-                    emoji = discord.utils.get(self.emojis, id=emoji_id)
-                    if emoji == None: # Does not exist in the guild
-                        continue
-                    await message.add_reaction(emoji)
-            
+                channel = message.channel
+                if message.guild.id in self.thread_to_remove:
+                    self.thread_to_remove[message.guild.id].append(message.id)
+                else:
+                    self.thread_to_remove[message.guild.id] = []
+                    self.thread_to_remove[message.guild.id].append(message.id)
                 
-        # await self.get_channel(907810748430950410).send('Message from {0.author}: {0.content} in {0.channel.id}'.format(message))
+                await message.delete()
+                await channel.send("**{} we do not allow for the direct creation of threads please write a normal message in this channel!**".format(
+                    message.author.mention), 
+                    delete_after=10)
+    
+    async def on_thread_join(self, thread):
+        if thread.guild.id in self.thread_to_remove:
+            if thread.id in self.thread_to_remove[thread.guild.id]:
+                await thread.delete()                
+                self.thread_to_remove[thread.guild.id].remove(thread.id)
 
 if __name__ == "__main__":
     if os.path.exists(".env"):
@@ -114,7 +97,14 @@ if __name__ == "__main__":
         for line in open(".env"):
             var = line.strip().split("=")
             os.environ[var[0]] = var[1]
+    
+    test_channel = int(os.getenv("TEST_CHANNEL_ID"))
+    production_channel = int(os.getenv("PRODUCTION_CHANNEL_ID"))
+    thread_channels = [test_channel]
+
+    upvode_id = int(os.getenv("UPVOTE_ID"))
+    thread_emojis = [upvode_id]
 
     token = os.getenv("DISCORD_TOKEN")
-    bot = DiscordClient()
+    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis)
     bot.run(token)

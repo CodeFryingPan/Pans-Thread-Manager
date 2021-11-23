@@ -14,7 +14,15 @@ if os.path.exists(".env"):
 # Get the mode
 mode = os.getenv("FAST_API_CONFIG") or "development"
 token = os.getenv("DISCORD_TOKEN")
-app, bot = create_app(mode, token)
+        
+test_channel = int(os.getenv("TEST_CHANNEL_ID"))
+production_channel = int(os.getenv("PRODUCTION_CHANNEL_ID"))
+thread_channels = [test_channel]
+
+upvode_id = int(os.getenv("UPVOTE_ID"))
+thread_emojis = [upvode_id]
+
+app, bot = create_app(mode, thread_channels, thread_emojis, token)
 
 # Runs the tests
 def test():
