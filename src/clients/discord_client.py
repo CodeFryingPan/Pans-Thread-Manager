@@ -45,13 +45,28 @@ CONTENT (Alteast 30 characters long)
         # Skip if its the bots message
         if message.author == self.user:
             return
-
         # Thread creation
         if message.channel.id in self.thread_channels:
+            channel = message.channel
+            content = message.content
+            author = message.author
+
+            if message.mention_everyone:
+                await message.delete()
+                await channel.send("**{} we do not allow mentions in this channel!**".format(
+                        message.author.mention), 
+                        delete_after=10)
+                return
+
+            if len(message.role_mentions) > 0:
+                await message.delete()
+                await channel.send("**{} we do not allow mentions in this channel!**".format(
+                        message.author.mention), 
+                        delete_after=10)
+                return
+                return
+
             if message.type == discord.MessageType.default:
-                channel = message.channel
-                content = message.content
-                author = message.author
                 valid, status = self._validate_format(content)
                 if valid:
                     for emoji_id in self.thread_emojis:
