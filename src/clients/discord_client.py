@@ -15,8 +15,16 @@ class DiscordClient(discord.Client):
 **TITLE** (Atleast 10 characters long + CTRL+B or COMMAND+B)            
 
 CONTENT (Alteast 30 characters long)
---------
-```How to bold title in markdown: **title**```"""
+--------"""
+        self.footer = "How to bold title in markdown: **title**"
+
+    def _format_embed(self, message, title, user_posted = False, footer = None):
+        embed = discord.Embed(title=title, description=message, color=0xFFFFFF)
+        if user_posted:
+            embed.set_author(name=self.user.name, icon_url=self.user.avatar.url)
+        if footer:
+            embed.set_footer(text=footer)
+        return embed
 
     def _validate_format(self, content):
         lines = content.split("\n")
@@ -51,19 +59,11 @@ CONTENT (Alteast 30 characters long)
             content = message.content
             author = message.author
 
-            if message.mention_everyone:
+            if message.mention_everyone or len(message.role_mentions) > 0:
                 await message.delete()
-                await channel.send("**{} we do not allow mentions in this channel!**".format(
-                        message.author.mention), 
-                        delete_after=10)
-                return
-
-            if len(message.role_mentions) > 0:
-                await message.delete()
-                await channel.send("**{} we do not allow mentions in this channel!**".format(
-                        message.author.mention), 
-                        delete_after=10)
-                return
+                embed = self._format_embed(title="Invalid Action", message="{} we do not allow mentions in this channel!".format(
+                    message.author.mention))
+                await channel.send(embed=embed, delete_after=10)
                 return
 
             if message.type == discord.MessageType.default:
@@ -79,19 +79,17 @@ CONTENT (Alteast 30 characters long)
                     await author.add_roles(role)
                 else:
                     await message.delete()
-                    await channel.send("**{} the message you sent does not pass post validation for a thread with the following reason:** \n__**{}**__ \n\n**Message:** \n{} \n\n\n**Please make it into a thread with the format:** \n{}".format(
-                            message.author.mention, 
-                            status,
-                            content, 
-                            self.format), 
-                        delete_after=30)
+                    embed = self._format_embed(title="Wrong Format", message="{} the message you sent does not pass post validation for a thread: \n__**{}**__ \n\n**Message:** \n{} \n\n\n **Please make it into a thread with the format:** \n{}".format(
+                            message.author.mention, status, content, self.format),
+                            footer="{}".format(self.footer))
+                    await channel.send(embed=embed, delete_after=30)
 
             if message.type == discord.MessageType.reply:
                 channel = message.channel
                 await message.delete()
-                await channel.send("**{} we do not allow replies in this channel!**".format(
-                        message.author.mention), 
-                        delete_after=10)
+                embed = self._format_embed(title="Invalid Action", message="{} we do not allow replies in this channel!".format(
+                        message.author.mention))
+                await channel.send(embed=embed, delete_after=10)
             if message.type == discord.MessageType.thread_created:
                 channel = message.channel
                 if message.guild.id in self.thread_to_remove:
@@ -101,9 +99,9 @@ CONTENT (Alteast 30 characters long)
                     self.thread_to_remove[message.guild.id].append(message.id)
                 
                 await message.delete()
-                await channel.send("**{} we do not allow for the direct creation of threads please write a normal message in this channel!**".format(
-                    message.author.mention), 
-                    delete_after=10)
+                embed = self._format_embed(title="Invalid Action", message="{} we do not allow for the direct creation of threads please write a normal message in this channel!".format(
+                    message.author.mention))
+                await channel.send(embed=embed, delete_after=10)
     
     async def on_thread_join(self, thread):
         if thread.guild.id in self.thread_to_remove:
