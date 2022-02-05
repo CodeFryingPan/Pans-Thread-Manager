@@ -1,4 +1,4 @@
-# Pans-News-Feed-Bot
+# Pans Thread Manager
 
 ## Setup 
 
