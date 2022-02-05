@@ -3,6 +3,7 @@ import os
 import uvicorn
 from src import create_app
 import unittest
+import json
 
 # Import settings from .env file
 if os.path.exists(".env"):
@@ -15,19 +16,16 @@ if os.path.exists(".env"):
 mode = os.getenv("FAST_API_CONFIG") or "development"
 token = os.getenv("DISCORD_TOKEN")
         
-test_channel = int(os.getenv("TEST_CHANNEL_ID"))
-production_channel = int(os.getenv("PRODUCTION_CHANNEL_ID"))
-thread_channels = [test_channel]
 
-upvode_id = int(os.getenv("UPVOTE_ID"))
-thread_emojis = [upvode_id]
+if not os.path.exists('channels.json'):
+    print("ERROR: channels.json file does not exist failing the script.")
+    sys.exit("FAILED TO RUN SCRIPT MISSING channels.json")
 
 
-insight_role = int(os.getenv("REACTION_ROLE_ID"))
-thread_role = insight_role
-
-
-app, bot = create_app(mode, thread_channels, thread_emojis, thread_role, token)
+f = open('channels.json')
+json_threads = json.load(f)        
+    
+app, bot = create_app(mode, json_threads['channels'], token)
 
 # Runs the tests
 def test():

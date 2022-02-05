@@ -1,8 +1,9 @@
+from faulthandler import is_enabled
 from fastapi import FastAPI
 from src.clients.discord_client import DiscordClient
 import os
 
-def create_app(config_name, thread_channels, thread_emojis, thread_role, token):
+def create_app(config_name, threads):
     """
     This will create an instance of FastAPI with the specified routers
     :param config_name: Setup the config name
@@ -11,7 +12,7 @@ def create_app(config_name, thread_channels, thread_emojis, thread_role, token):
 
     # TODO: Setup these clients in the clients folder instead of here.
     # NEED TO SPECIFY Thread channels and thread_emojis
-    bot = DiscordClient(thread_channels=thread_channels, thread_emojis=thread_emojis, thread_role=thread_role)
+    bot = DiscordClient(threads = threads)
 
     from src.config.config import config
     #TODO: Setup proper configurations for FASTAPI

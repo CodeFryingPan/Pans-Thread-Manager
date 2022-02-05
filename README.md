@@ -86,7 +86,7 @@ python3 run.py
 
 Set the `value` of FAST_API_CONFIG to `testing` and run:
 
-```
+```zsh
 python3 manage.py
 ```
 
@@ -95,7 +95,7 @@ Or using a debugger in Pycharm or VSCode.
 
 ##### Specific Tests
 
-```
+```zsh
 python3 -m unittest discover tests/<directory>
 ```
 
@@ -105,7 +105,7 @@ python3 -m unittest discover tests/<directory>
 ##### Specific Files:
 
 
-```
+```zsh
 python3 -m unittest tests/<directory>/test_*.py
 ```
 
@@ -118,6 +118,43 @@ All tests must be named `test_*.py` to be detected by unittest.
 
 Base tests (that are not meant to be run) should be named `base_*_test.py`.
 
+## CONFIG REQUIREMENTS
+
+Create a .env file and channels.json file for the purpose of reading date:
+
+
+Channels.json example:
+```json
+{
+    "channels" : [
+        {
+            "id": <CHANNEL_ID>,
+            "emojis": [ <EMOJI_ID>],
+            "role_to_give": <ROLE_ID>,
+            "template": "--------\n\n            **TITLE** (Atleast 10 characters long + CTRL+B or COMMAND+B)\n\n                                    CONTENT (Alteast 30 characters long)\n\n            --------",
+            "embed": false,
+            "footer": "How to bold title in markdown: **title**",
+            "validator": {
+                "minimum_lines": 3,
+                "title_bold": true,
+                "title_length": 10,
+                "description_length": 30
+            }
+        },
+    ]   
+}
+
+
+```
+
+
+.env should look like this:
+```zsh
+FAST_API_CONFIG=development
+DISCORD_TOKEN=<BOT_TOKEN>
+
+```
+
 ## How to help the creation of the bot?
 
 [Guide on how to commit for Pan's News Feed Bot](COMMIT.md)
@@ -125,3 +162,8 @@ Base tests (that are not meant to be run) should be named `base_*_test.py`.
 ## License
 
 [License](LICENSE)
+
+
+
+
+
