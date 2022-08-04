@@ -5,15 +5,18 @@ import json
 
 from src.clients.discord_clientV2 import DiscordClientV2
 
-# Import settings from .env file
-if os.path.exists(".env"):
-    print("Importing environment from .env file")
-    for line in open(".env"):
-        var = line.strip().split("=")
-        os.environ[var[0]] = var[1]
-else:
-    print("ERROR: .env file does not exist failing the script.")
-    sys.exit("FAILED TO RUN SCRIPT MISSING .env")
+is_prod = os.environ.get('IS_HEROKU', None)
+
+if not is_prod:
+    # Import settings from .env file
+    if os.path.exists(".env"):
+        print("Importing environment from .env file")
+        for line in open(".env"):
+            var = line.strip().split("=")
+            os.environ[var[0]] = var[1]
+    else:
+        print("ERROR: .env file does not exist failing the script.")
+        sys.exit("FAILED TO RUN SCRIPT MISSING .env")
 
 token = os.getenv("DISCORD_TOKEN")
 
