@@ -77,7 +77,9 @@ class DiscordClientV2(discord.Client):
         if message.author == self.user:
             return
         # Thread creation
+        print("CHECKING THREAD")
         if message.channel.id in self.thread_channels:
+            print("TRUE")
             channel = message.channel
             content = message.content
             author = message.author
