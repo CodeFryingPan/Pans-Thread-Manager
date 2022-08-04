@@ -36,6 +36,8 @@ if __name__ == "__main__" and not is_prod:
 if __name__ == "__main__" and is_prod:
     threads = json.loads(os.getenv("CHANNELS_JSON"))
     
+    print(threads)
+    
     bot = DiscordClientV2(threads=threads["channels"])
     
     bot.run(token)

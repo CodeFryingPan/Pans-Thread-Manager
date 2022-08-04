@@ -21,7 +21,8 @@ class DiscordClientV2(discord.Client):
                 "role_to_give": thread["role_to_give"],
                 "validator": thread["validator"]
             }
-             
+        
+        print(self.thread_channels)
 
     def _format_embed(self, message, title, user = None, footer = None):
         embed = discord.Embed(title=title, description=message, color=0xFFFFFF)
