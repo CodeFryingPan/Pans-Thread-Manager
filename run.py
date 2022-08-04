@@ -21,7 +21,7 @@ if not is_prod:
 token = os.getenv("DISCORD_TOKEN")
 
 # Setup to run the app in debug mode
-if __name__ == "__main__":
+if __name__ == "__main__" and not is_prod:
     if os.path.exists('channels.json'):
         f = open('channels.json')
         threads = json.load(f)
@@ -31,3 +31,10 @@ if __name__ == "__main__":
     else:
         print("ERROR: channels.json file does not exist failing the script.")
         sys.exit("FAILED TO RUN SCRIPT MISSING channels.json")
+
+# Setup to run the app in production mode
+if __name__ == "__main__" and is_prod:
+    threads = json.loads(os.getenv("CHANNELS_JSON"))
+
+    bot = DiscordClientV2(threads=threads["channels"])
+    bot.run(token)
