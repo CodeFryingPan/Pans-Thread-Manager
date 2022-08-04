@@ -8,7 +8,7 @@ chardet==4.0.0
 charset-normalizer==2.0.7
 click==8.0.3
 discord==1.7.3
-discord.py==1.7.3
+discord.py @ git+https://github.com/Rapptz/discord.py@ca1365d7ef10d302e8730f583e2d1ac568cd7b65
 fastapi==0.70.0
 h11==0.12.0
 idna==3.3

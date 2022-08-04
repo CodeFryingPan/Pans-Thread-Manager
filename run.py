@@ -35,13 +35,7 @@ if __name__ == "__main__" and not is_prod:
 # Setup to run the app in production mode
 if __name__ == "__main__" and is_prod:
     threads = json.loads(os.getenv("CHANNELS_JSON"))
-
-    print("CHANNELS_JSON")
-    # print(os.getenv("CHANNELS_JSON"))
-    print(threads["channels"])
     
     bot = DiscordClientV2(threads=threads["channels"])
-    
-    print("BOT OBJECT CREATED SUCCESSFULLY --- RUNNING BOT")
     
     bot.run(token)
