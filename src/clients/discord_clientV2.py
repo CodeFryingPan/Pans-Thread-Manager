@@ -8,7 +8,12 @@ import sys
 
 class DiscordClientV2(discord.Client):
     def __init__(self, threads, *args, **kwargs):
-        super().__init__( intents= [discord.Intents.default(), discord.Intents.message_content], *args, **kwargs)        
+        
+        # Intent Setup
+        intents = discord.Intents.default()
+        intents.message_content = True
+        
+        super().__init__( intents=intents, *args, **kwargs)        
         self.thread_channels = dict()
         self.thread_to_remove = dict()
 
