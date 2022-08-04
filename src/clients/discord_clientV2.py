@@ -21,8 +21,6 @@ class DiscordClientV2(discord.Client):
                 "role_to_give": thread["role_to_give"],
                 "validator": thread["validator"]
             }
-        
-        print(self.thread_channels)
 
     def _format_embed(self, message, title, user = None, footer = None):
         embed = discord.Embed(title=title, description=message, color=0xFFFFFF)
@@ -77,9 +75,10 @@ class DiscordClientV2(discord.Client):
         if message.author == self.user:
             return
         # Thread creation
-        print("CHECKING THREAD")
         if message.channel.id in self.thread_channels:
-            print("TRUE")
+            print(message)
+            print()
+            print(message.content)
             channel = message.channel
             content = message.content
             author = message.author
