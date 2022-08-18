@@ -1,4 +1,3 @@
-from asyncio import threads
 from re import M
 import requests
 import discord
