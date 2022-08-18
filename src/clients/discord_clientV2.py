@@ -81,9 +81,6 @@ class DiscordClientV2(discord.Client):
             return
         # Thread creation
         if message.channel.id in self.thread_channels:
-            print(message)
-            print()
-            print(message.content)
             channel = message.channel
             content = message.content
             author = message.author
